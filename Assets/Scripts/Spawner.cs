@@ -5,6 +5,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Segment _segmentTemplate;
     [SerializeField] private Block _blockTemplate;
     [SerializeField] private Finish _finishTemplate;
+    [SerializeField] private Coin _coinTemplate;
+    [SerializeField] private Ball _ball;
     [SerializeField] private int _towerSize;
 
     private void Start()
@@ -21,6 +23,8 @@ public class Spawner : MonoBehaviour
             currentPoint = BuildSegment(currentPoint, _segmentTemplate.gameObject);
 
             currentPoint = BuildSegment(currentPoint, _blockTemplate.gameObject);
+
+            SpawnCoin(currentPoint);
         }
 
         BuildSegment(currentPoint, _finishTemplate.gameObject);
@@ -29,6 +33,11 @@ public class Spawner : MonoBehaviour
     private GameObject BuildSegment(GameObject currentSegment, GameObject nextSegment)
     {
         return Instantiate(nextSegment, GetBuildPoint(currentSegment.transform, nextSegment.transform), Quaternion.identity, transform);
+    }
+
+    private void SpawnCoin(GameObject currentSegment)
+    {
+        Instantiate(_coinTemplate, new Vector3(currentSegment.transform .position.x, currentSegment.transform.position.y, _ball.transform.position.z), Quaternion.identity, transform);
     }
 
     private Vector3 GetBuildPoint(Transform currentSegment, Transform nextSegment)
